@@ -45,15 +45,15 @@ export function AdminLogin() {
     };
 
     return (
-        <div className="min-h-screen bg-slate-900 flex flex-col">
+        <div className="min-h-screen bg-slate-100 dark:bg-slate-900 flex flex-col">
             {/* Background Pattern */}
-            <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-30" />
+            <div className="absolute inset-0 bg-grid-pattern dark:bg-grid-pattern-dark bg-grid opacity-60 dark:opacity-40" />
 
             {/* Header */}
             <header className="relative z-10 w-full p-4 md:p-6 flex items-center justify-between">
                 <Link
                     to="/"
-                    className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
+                    className="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
                 >
                     <ArrowLeft className="w-5 h-5" />
                     <span className="font-medium">Kembali</span>

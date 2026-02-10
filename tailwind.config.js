@@ -56,7 +56,8 @@ export default {
             backgroundImage: {
                 'mesh-gradient': 'radial-gradient(at 40% 20%, hsla(210, 100%, 56%, 0.3) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 0.2) 0px, transparent 50%), radial-gradient(at 0% 50%, hsla(210, 100%, 56%, 0.2) 0px, transparent 50%)',
                 'mesh-gradient-dark': 'radial-gradient(at 40% 20%, hsla(210, 100%, 40%, 0.2) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(189, 100%, 40%, 0.15) 0px, transparent 50%)',
-                'grid-pattern': 'linear-gradient(to right, rgba(148, 163, 184, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(148, 163, 184, 0.1) 1px, transparent 1px)',
+                'grid-pattern': 'linear-gradient(to right, rgba(100, 116, 139, 0.15) 1px, transparent 1px), linear-gradient(to bottom, rgba(100, 116, 139, 0.15) 1px, transparent 1px)',
+                'grid-pattern-dark': 'linear-gradient(to right, rgba(148, 163, 184, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(148, 163, 184, 0.1) 1px, transparent 1px)',
             },
             backgroundSize: {
                 'mesh': '100% 100%',

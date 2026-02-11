@@ -19,10 +19,10 @@ import {
 } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle, SkeletonStats, Skeleton } from '../../components/ui';
 import { mockAdminStats, mockPayments, type Payment } from '../../data/mockData';
-import { formatRupiahString, formatDateTime } from '../../lib/utils';
+import { formatRupiahString } from '../../lib/utils';
 
 export function AdminDashboard() {
-    const [stats, setStats] = useState(mockAdminStats);
+    const [stats, _setStats] = useState(mockAdminStats);
     const [recentPayments, setRecentPayments] = useState<Payment[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -211,16 +211,16 @@ export function AdminDashboard() {
                                 {recentPayments.map((payment) => (
                                     <div key={payment.id} className="flex items-center gap-3">
                                         <div className={`w-10 h-10 rounded-full flex items-center justify-center ${payment.status === 'success'
-                                                ? 'bg-green-100 dark:bg-green-900/30'
-                                                : payment.status === 'pending'
-                                                    ? 'bg-amber-100 dark:bg-amber-900/30'
-                                                    : 'bg-red-100 dark:bg-red-900/30'
+                                            ? 'bg-green-100 dark:bg-green-900/30'
+                                            : payment.status === 'pending'
+                                                ? 'bg-amber-100 dark:bg-amber-900/30'
+                                                : 'bg-red-100 dark:bg-red-900/30'
                                             }`}>
                                             <CreditCard className={`w-5 h-5 ${payment.status === 'success'
-                                                    ? 'text-green-600'
-                                                    : payment.status === 'pending'
-                                                        ? 'text-amber-600'
-                                                        : 'text-red-600'
+                                                ? 'text-green-600'
+                                                : payment.status === 'pending'
+                                                    ? 'text-amber-600'
+                                                    : 'text-red-600'
                                                 }`} />
                                         </div>
                                         <div className="flex-1 min-w-0">

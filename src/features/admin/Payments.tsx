@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Filter, CheckCircle, Clock, XCircle, CreditCard } from 'lucide-react';
+import { Search, CheckCircle, Clock, XCircle, CreditCard } from 'lucide-react';
 import { Card, CardContent, SkeletonTable, EmptyState } from '../../components/ui';
 import { mockPayments, type Payment } from '../../data/mockData';
 import { formatRupiahString, formatDateTime } from '../../lib/utils';

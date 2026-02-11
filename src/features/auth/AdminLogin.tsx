@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Lock, User } from 'lucide-react';
+import { ArrowLeft, Lock } from 'lucide-react';
 import { toast } from 'sonner';
 import { Logo } from '../../components/Logo';
 import { Button, Input, ThemeToggle } from '../../components/ui';

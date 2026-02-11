@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Filter, MoreHorizontal, User } from 'lucide-react';
-import { Card, CardContent, SkeletonTable, EmptyState, Input } from '../../components/ui';
+import { Card, CardContent, SkeletonTable, EmptyState } from '../../components/ui';
 import { mockStudents, type Student } from '../../data/mockData';
 
 export function Students() {

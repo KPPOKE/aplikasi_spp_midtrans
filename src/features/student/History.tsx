@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { History as HistoryIcon, CheckCircle, Clock, XCircle } from 'lucide-react';
+import { History as HistoryIcon, CheckCircle } from 'lucide-react';
 import { Card, CardContent, SkeletonCard, EmptyState } from '../../components/ui';
 import { useAuth } from '../../context/AuthContext';
 import { getPaidBillsByStudentId, type Bill } from '../../data/mockData';

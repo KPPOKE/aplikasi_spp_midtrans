@@ -68,7 +68,11 @@ export function PaymentDrawer({ bill, isOpen, onClose }: PaymentDrawerProps) {
             const method = paymentMethods.find(m => m.id === selectedMethod);
             const enabledPayment = method?.midtransId || selectedMethod;
 
-            const response = await fetch('http://localhost:3001/api/payment/create', {
+            // Determine API URL:
+            // 1. Use VITE_API_URL if set (e.g. http://localhost:3001 for local dev)
+            // 2. Fallback to empty string (relative path) for production where frontend/backend are on same domain
+            const apiUrl = import.meta.env.VITE_API_URL || '';
+            const response = await fetch(`${apiUrl}/api/payment/create`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

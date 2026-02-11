@@ -24,7 +24,7 @@ const snap = new midtransClient.Snap({
 
 // Create transaction and get Snap token
 app.post('/api/payment/create', async (req, res) => {
-    const { orderId, amount, name, billTitle } = req.body;
+    const { orderId, amount, name, billTitle, paymentMethod } = req.body;
 
     const parameter = {
         transaction_details: {
@@ -41,6 +41,11 @@ app.post('/api/payment/create', async (req, res) => {
             first_name: name || 'Student',
         },
     };
+
+    // If a specific payment method was selected, limit Snap to show only that method
+    if (paymentMethod) {
+        parameter.enabled_payments = [paymentMethod];
+    }
 
     try {
         console.log('Creating transaction with params:', JSON.stringify(parameter));

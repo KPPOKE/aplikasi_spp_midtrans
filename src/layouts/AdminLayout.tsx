@@ -6,11 +6,11 @@ import {
     Users,
     CreditCard,
     FileText,
-    Settings,
+    PanelLeftClose,
     Menu,
     X,
 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Logo } from '../components/Logo';
 import { ThemeToggle } from '../components/ui';
 import { useAuth } from '../context/AuthContext';
@@ -26,6 +26,17 @@ export function AdminLayout() {
     const { user, role, logout } = useAuth();
     const location = useLocation();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+    const [isDesktop, setIsDesktop] = useState(() =>
+        typeof window !== 'undefined' ? window.innerWidth >= 1024 : false
+    );
+
+    // Listen for window resize
+    useEffect(() => {
+        const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     // Redirect if not authenticated as admin
     if (!user || role !== 'admin') {
@@ -88,8 +99,8 @@ export function AdminLayout() {
                                             to={item.path}
                                             onClick={() => setIsSidebarOpen(false)}
                                             className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all ${isActive
-                                                    ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900'
-                                                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                                                ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900'
+                                                : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
                                                 }`}
                                         >
                                             <item.icon className="w-5 h-5" />
@@ -112,56 +123,142 @@ export function AdminLayout() {
                 )}
             </AnimatePresence>
 
-            {/* Desktop Sidebar */}
-            <aside className="hidden lg:flex lg:fixed lg:left-0 lg:top-0 lg:h-screen lg:w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 flex-col z-30">
-                <div className="p-6 border-b border-slate-200 dark:border-slate-700">
-                    <Logo size="lg" />
+            {/* ===== Desktop Sidebar ===== */}
+            <motion.aside
+                initial={false}
+                animate={{ width: sidebarCollapsed ? 72 : 256 }}
+                transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                className="hidden lg:flex fixed top-0 left-0 h-screen z-30 flex-col
+                    bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700"
+            >
+                {/* Sidebar Header - Logo + Collapse Toggle */}
+                <div className="h-16 flex items-center justify-between px-4 border-b border-slate-200 dark:border-slate-700">
+                    <AnimatePresence mode="wait">
+                        {sidebarCollapsed ? (
+                            <motion.button
+                                key="collapsed-logo"
+                                onClick={() => setSidebarCollapsed(false)}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.8 }}
+                                transition={{ duration: 0.15 }}
+                                className="text-xl font-extrabold tracking-tight text-blue-600 dark:text-blue-400 mx-auto hover:scale-110 transition-transform cursor-pointer"
+                                title="Buka Sidebar"
+                            >
+                                E
+                            </motion.button>
+                        ) : (
+                            <motion.div
+                                key="expanded-logo"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.15 }}
+                                className="flex items-center justify-between w-full"
+                            >
+                                <Logo size="lg" />
+                                <button
+                                    onClick={() => setSidebarCollapsed(true)}
+                                    className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-all"
+                                    title="Tutup Sidebar"
+                                >
+                                    <PanelLeftClose className="w-4 h-4" />
+                                </button>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
-                <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+
+                {/* Nav Items */}
+                <nav className="flex-1 px-3 py-4 space-y-1">
                     {navItems.map((item) => {
                         const isActive = isActiveRoute(item.path, item.exact);
                         return (
                             <Link
                                 key={item.path}
                                 to={item.path}
-                                className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all ${isActive
-                                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900'
-                                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
-                                    }`}
+                                className={`group relative flex items-center gap-3 rounded-xl transition-all duration-200 ${isActive
+                                    ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900'
+                                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+                                    } ${sidebarCollapsed ? 'mx-auto w-10 h-10 justify-center' : 'px-3 py-2.5'}`}
                             >
-                                <item.icon className="w-5 h-5" />
-                                {item.label}
+                                <item.icon className="w-5 h-5 flex-shrink-0" />
+
+                                <AnimatePresence>
+                                    {!sidebarCollapsed && (
+                                        <motion.span
+                                            initial={{ opacity: 0, x: -8 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: -8 }}
+                                            transition={{ duration: 0.15 }}
+                                            className="font-medium text-sm whitespace-nowrap"
+                                        >
+                                            {item.label}
+                                        </motion.span>
+                                    )}
+                                </AnimatePresence>
+
+                                {/* Tooltip when collapsed */}
+                                {sidebarCollapsed && (
+                                    <div className="absolute left-full ml-2 px-2.5 py-1.5 bg-slate-900 dark:bg-slate-700 text-white text-xs font-medium rounded-lg
+                                        opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none whitespace-nowrap z-50 shadow-lg">
+                                        {item.label}
+                                        <div className="absolute top-1/2 -left-1 -translate-y-1/2 w-2 h-2 bg-slate-900 dark:bg-slate-700 rotate-45" />
+                                    </div>
+                                )}
                             </Link>
                         );
                     })}
                 </nav>
-                <div className="p-4 border-t border-slate-200 dark:border-slate-700 space-y-2">
-                    <div className="flex items-center gap-3 px-4 py-2">
-                        <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
-                            <Settings className="w-5 h-5 text-slate-600 dark:text-slate-400" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                            <p className="font-medium text-slate-900 dark:text-white truncate">
-                                {user.admin?.name}
-                            </p>
-                            <p className="text-xs text-slate-500 dark:text-slate-400">
-                                Administrator
-                            </p>
-                        </div>
-                        <ThemeToggle />
-                    </div>
+
+                {/* Sidebar Footer - Only Logout */}
+                <div className={`px-3 py-4 ${sidebarCollapsed ? '' : 'border-t border-slate-200/50 dark:border-slate-700/50'}`}>
                     <button
                         onClick={logout}
-                        className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 font-medium transition-colors"
+                        className={`group relative flex items-center gap-3 rounded-xl
+                            text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20
+                            font-medium transition-all duration-200
+                            ${sidebarCollapsed ? 'mx-auto w-10 h-10 justify-center' : 'w-full px-3 py-2.5'}`}
                     >
-                        <LogOut className="w-5 h-5" />
-                        Keluar
+                        <LogOut className="w-5 h-5 flex-shrink-0" />
+                        <AnimatePresence>
+                            {!sidebarCollapsed && (
+                                <motion.span
+                                    initial={{ opacity: 0, x: -8 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: -8 }}
+                                    transition={{ duration: 0.15 }}
+                                    className="text-sm"
+                                >
+                                    Keluar
+                                </motion.span>
+                            )}
+                        </AnimatePresence>
+
+                        {/* Tooltip when collapsed */}
+                        {sidebarCollapsed && (
+                            <div className="absolute left-full ml-2 px-2.5 py-1.5 bg-slate-900 dark:bg-slate-700 text-white text-xs font-medium rounded-lg
+                                opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none whitespace-nowrap z-50 shadow-lg">
+                                Keluar
+                                <div className="absolute top-1/2 -left-1 -translate-y-1/2 w-2 h-2 bg-slate-900 dark:bg-slate-700 rotate-45" />
+                            </div>
+                        )}
                     </button>
                 </div>
-            </aside>
+            </motion.aside>
+
+            {/* Desktop Theme Toggle - Top Right */}
+            <div className="hidden lg:block fixed top-0 right-0 z-30 p-4">
+                <ThemeToggle />
+            </div>
 
             {/* Main Content */}
-            <main className="lg:ml-64 min-h-screen">
+            <main
+                className="min-h-screen transition-[margin-left] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
+                style={{
+                    marginLeft: isDesktop ? (sidebarCollapsed ? 72 : 256) : 0,
+                }}
+            >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                     <AnimatePresence mode="wait">
                         <motion.div

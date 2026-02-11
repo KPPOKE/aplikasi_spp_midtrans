@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Drawer } from 'vaul';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CreditCard, Loader2, CheckCircle } from 'lucide-react';
@@ -17,11 +18,11 @@ interface PaymentDrawerProps {
 }
 
 const paymentMethods = [
-    { id: 'bca_va', name: 'BCA Virtual Account', icon: '🏦' },
-    { id: 'bni_va', name: 'BNI Virtual Account', icon: '🏦' },
-    { id: 'mandiri_va', name: 'Mandiri Virtual Account', icon: '🏦' },
-    { id: 'gopay', name: 'GoPay', icon: '💳' },
-    { id: 'qris', name: 'QRIS', icon: '📱' },
+    { id: 'bca_va', name: 'BCA Virtual Account', icon: '🏦', midtransId: 'bca_va' },
+    { id: 'bni_va', name: 'BNI Virtual Account', icon: '🏦', midtransId: 'bni_va' },
+    { id: 'mandiri_va', name: 'Mandiri Virtual Account', icon: '🏦', midtransId: 'echannel' },
+    { id: 'gopay', name: 'GoPay', icon: '💳', midtransId: 'gopay' },
+    { id: 'qris', name: 'QRIS', icon: '📱', midtransId: 'other_qris' },
 ];
 
 export function PaymentDrawer({ bill, isOpen, onClose }: PaymentDrawerProps) {
@@ -63,6 +64,10 @@ export function PaymentDrawer({ bill, isOpen, onClose }: PaymentDrawerProps) {
             const orderId = generateOrderId();
 
             // Call backend to create transaction and get Snap token
+            // Get the Midtrans payment type ID for the selected method
+            const method = paymentMethods.find(m => m.id === selectedMethod);
+            const enabledPayment = method?.midtransId || selectedMethod;
+
             const response = await fetch('http://localhost:3001/api/payment/create', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -71,6 +76,7 @@ export function PaymentDrawer({ bill, isOpen, onClose }: PaymentDrawerProps) {
                     amount: bill.amount,
                     name: bill.title,
                     billTitle: bill.title,
+                    paymentMethod: enabledPayment,
                 }),
             });
 
@@ -89,6 +95,9 @@ export function PaymentDrawer({ bill, isOpen, onClose }: PaymentDrawerProps) {
             }
 
             setIsProcessing(false);
+
+            // Close our drawer so Midtrans Snap handles the full-screen overlay
+            onClose();
 
             // Open MidTrans Snap payment popup
             window.snap.pay(token, {
@@ -254,8 +263,8 @@ export function PaymentDrawer({ bill, isOpen, onClose }: PaymentDrawerProps) {
         return (
             <Drawer.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
                 <Drawer.Portal>
-                    <Drawer.Overlay className="fixed inset-0 bg-black/50 z-50" />
-                    <Drawer.Content className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-slate-900 rounded-t-3xl max-h-[85vh] flex flex-col">
+                    <Drawer.Overlay className="fixed inset-0 bg-black/50 z-[100]" />
+                    <Drawer.Content className="fixed bottom-0 left-0 right-0 z-[100] bg-white dark:bg-slate-900 rounded-t-3xl max-h-[85vh] flex flex-col">
                         {/* Drag handle */}
                         <div className="pt-4 pb-2 flex-shrink-0">
                             <div className="w-12 h-1.5 bg-slate-300 dark:bg-slate-600 rounded-full mx-auto" />
@@ -282,8 +291,8 @@ export function PaymentDrawer({ bill, isOpen, onClose }: PaymentDrawerProps) {
         );
     }
 
-    // Desktop modal
-    return (
+    // Desktop modal - use Portal to escape motion.div transform context
+    return createPortal(
         <AnimatePresence>
             {isOpen && (
                 <>
@@ -291,10 +300,10 @@ export function PaymentDrawer({ bill, isOpen, onClose }: PaymentDrawerProps) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 bg-black/50 z-50"
+                        className="fixed inset-0 bg-black/50 z-[100]"
                         onClick={onClose}
                     />
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 pointer-events-none">
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -321,6 +330,7 @@ export function PaymentDrawer({ bill, isOpen, onClose }: PaymentDrawerProps) {
                     </div>
                 </>
             )}
-        </AnimatePresence>
+        </AnimatePresence>,
+        document.body
     );
 }

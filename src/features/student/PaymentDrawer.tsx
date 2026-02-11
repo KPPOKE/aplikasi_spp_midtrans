@@ -69,9 +69,13 @@ export function PaymentDrawer({ bill, isOpen, onClose }: PaymentDrawerProps) {
             const enabledPayment = method?.midtransId || selectedMethod;
 
             // Determine API URL:
-            // 1. Use VITE_API_URL if set (e.g. http://localhost:3001 for local dev)
-            // 2. Fallback to empty string (relative path) for production where frontend/backend are on same domain
-            const apiUrl = import.meta.env.VITE_API_URL || '';
+            // 1. In PRODUCTION (Vercel), always use relative path "" to hit the serverless function on the same domain.
+            // 2. In DEVELOPMENT, use VITE_API_URL from .env or fallback to localhost:3001.
+            const isProduction = import.meta.env.PROD;
+            const apiUrl = isProduction ? '' : (import.meta.env.VITE_API_URL || 'http://localhost:3001');
+
+            console.log('Payment API URL:', `${apiUrl}/api/payment/create`); // Debug log
+
             const response = await fetch(`${apiUrl}/api/payment/create`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

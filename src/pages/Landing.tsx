@@ -14,7 +14,7 @@ export function Landing() {
             </header>
 
             {/* Main Content */}
-            <main className="flex-1 flex flex-col items-center justify-center px-4 py-12">
+            <main className="flex-1 flex flex-col items-center justify-start px-4 pt-8 md:pt-16 pb-12">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -87,11 +87,6 @@ export function Landing() {
                     </motion.div>
                 </div>
             </main>
-
-            {/* Footer */}
-            <footer className="p-4 text-center text-sm text-slate-500 dark:text-slate-400">
-                © 2026 EduPay. Built with ❤️ for better education
-            </footer>
         </div>
     );
 }

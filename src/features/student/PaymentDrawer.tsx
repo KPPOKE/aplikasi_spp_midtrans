@@ -302,6 +302,7 @@ export function PaymentDrawer({ bill, isOpen, onClose }: PaymentDrawerProps) {
                         exit={{ opacity: 0 }}
                         className="fixed inset-0 bg-black/50 z-[100]"
                         onClick={onClose}
+                        data-lenis-prevent
                     />
                     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 pointer-events-none">
                         <motion.div
@@ -309,6 +310,7 @@ export function PaymentDrawer({ bill, isOpen, onClose }: PaymentDrawerProps) {
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
                             className="w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-h-[85vh] flex flex-col pointer-events-auto"
+                            data-lenis-prevent
                         >
                             {/* Header */}
                             <div className="p-6 pb-4 flex items-center justify-between flex-shrink-0">

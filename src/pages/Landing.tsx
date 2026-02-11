@@ -8,7 +8,7 @@ export function Landing() {
     return (
         <div className="min-h-screen mesh-bg flex flex-col">
             {/* Header */}
-            <header className="w-full p-4 md:p-6 flex items-center justify-between">
+            <header className="w-full p-4 md:p-4     flex items-center justify-between">
                 <Logo size="lg" />
                 <ThemeToggle />
             </header>
@@ -72,7 +72,7 @@ export function Landing() {
                                         <Shield className="w-7 h-7 text-white" />
                                     </div>
                                     <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
-                                        Staff / Admin
+                                        Admin
                                     </h2>
                                     <p className="text-slate-600 dark:text-slate-400 mb-6">
                                         Kelola data siswa, tagihan, dan laporan pembayaran

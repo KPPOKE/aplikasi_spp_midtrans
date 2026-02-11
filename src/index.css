@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import 'lenis/dist/lenis.css';
 
 @tailwind base;
 @tailwind components;
@@ -9,11 +10,12 @@
   * {
     @apply box-border;
   }
-  
+
   html {
+    font-size: 80%;
     @apply scroll-smooth antialiased;
   }
-  
+
   body {
     @apply font-sans text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-900 transition-colors duration-300;
   }
@@ -22,11 +24,11 @@
   ::-webkit-scrollbar {
     @apply w-2;
   }
-  
+
   ::-webkit-scrollbar-track {
     @apply bg-slate-100 dark:bg-slate-800;
   }
-  
+
   ::-webkit-scrollbar-thumb {
     @apply bg-slate-300 dark:bg-slate-600 rounded-full hover:bg-slate-400 dark:hover:bg-slate-500;
   }
@@ -34,11 +36,12 @@
 
 /* Component Styles */
 @layer components {
+
   /* Glassmorphism */
   .glass {
     @apply backdrop-blur-xl bg-white/60 dark:bg-slate-900/60 border border-white/20 dark:border-slate-700/30;
   }
-  
+
   .glass-card {
     @apply glass rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-slate-950/50;
   }
@@ -47,7 +50,7 @@
   .gradient-border {
     @apply relative;
   }
-  
+
   .gradient-border::before {
     content: '';
     @apply absolute inset-0 rounded-2xl p-[2px] bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-600;
@@ -78,15 +81,15 @@
   .btn {
     @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold rounded-xl transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
   }
-  
+
   .btn-primary {
     @apply btn bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40;
   }
-  
+
   .btn-secondary {
     @apply btn bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200;
   }
-  
+
   .btn-ghost {
     @apply btn hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400;
   }
@@ -95,7 +98,7 @@
   .input {
     @apply w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-200;
   }
-  
+
   .input-error {
     @apply border-red-500 focus:ring-red-500/50 focus:border-red-500;
   }
@@ -104,7 +107,7 @@
   .card {
     @apply bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/50 p-6 transition-all duration-300;
   }
-  
+
   .card-hover {
     @apply card hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-slate-950/50 hover:-translate-y-1;
   }
@@ -119,7 +122,7 @@
   .table-zebra tbody tr:nth-child(odd) {
     @apply bg-white dark:bg-slate-800;
   }
-  
+
   .table-zebra tbody tr:nth-child(even) {
     @apply bg-slate-50 dark:bg-slate-800/50;
   }
@@ -131,7 +134,7 @@
     @apply bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 bg-clip-text text-transparent;
     background-size: 200% auto;
   }
-  
+
   .tracking-tight {
     letter-spacing: -0.025em;
   }

@@ -9,6 +9,7 @@ import { ThemeProvider } from './context/ThemeContext';
 // Layouts
 import { StudentLayout } from './layouts/StudentLayout';
 import { AdminLayout } from './layouts/AdminLayout';
+import { SmoothScroll } from './components/SmoothScroll';
 
 // Pages
 import { Landing } from './pages/Landing';
@@ -32,6 +33,7 @@ function App() {
       <ThemeProvider>
         <AuthProvider>
           <BrowserRouter>
+            <SmoothScroll />
             <Routes>
               {/* Public Routes */}
               <Route path="/" element={<Landing />} />

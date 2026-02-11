@@ -62,7 +62,7 @@ export function AdminLogin() {
             </header>
 
             {/* Main Content */}
-            <main className="relative z-10 flex-1 flex items-center justify-center px-4 py-12">
+            <main className="relative z-10 flex-1 flex items-start justify-center px-4 pt-8 md:pt-10 pb-12">
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}

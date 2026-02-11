@@ -126,7 +126,7 @@ export function AdminLayout() {
             {/* ===== Desktop Sidebar ===== */}
             <motion.aside
                 initial={false}
-                animate={{ width: sidebarCollapsed ? 72 : 256 }}
+                animate={{ width: sidebarCollapsed ? '4.5rem' : '16rem' }}
                 transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
                 className="hidden lg:flex fixed top-0 left-0 h-screen z-30 flex-col
                     bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700"
@@ -256,7 +256,7 @@ export function AdminLayout() {
             <main
                 className="min-h-screen transition-[margin-left] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
                 style={{
-                    marginLeft: isDesktop ? (sidebarCollapsed ? 72 : 256) : 0,
+                    marginLeft: isDesktop ? (sidebarCollapsed ? '4.5rem' : '16rem') : 0,
                 }}
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">

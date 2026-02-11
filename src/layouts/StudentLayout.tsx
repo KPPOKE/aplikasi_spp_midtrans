@@ -37,7 +37,7 @@ export function StudentLayout() {
             {/* ===== Desktop Sidebar (hidden on mobile) ===== */}
             <motion.aside
                 initial={false}
-                animate={{ width: sidebarCollapsed ? 72 : 240 }}
+                animate={{ width: sidebarCollapsed ? '4.5rem' : '15rem' }}
                 transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
                 className="hidden sm:flex fixed top-0 left-0 h-screen z-40 flex-col
                     bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl
@@ -189,8 +189,8 @@ export function StudentLayout() {
             </header>
 
             {/* ===== Mobile Bottom Nav ===== */}
-            <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-40 backdrop-blur-xl bg-white/90 dark:bg-slate-900/90 border-t border-slate-200/50 dark:border-slate-700/50">
-                <div className="flex items-center justify-around py-2">
+            <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-40 backdrop-blur-xl bg-white/90 dark:bg-slate-900/90 border-t border-slate-200/50 dark:border-slate-700/50 safe-area-bottom">
+                <div className="flex items-center py-2">
                     {navItems.map((item) => {
                         const isActive = item.exact
                             ? location.pathname === item.path
@@ -200,7 +200,7 @@ export function StudentLayout() {
                             <Link
                                 key={item.path}
                                 to={item.path}
-                                className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-colors ${isActive
+                                className={`flex-1 flex flex-col items-center justify-center gap-1 py-2 transition-colors ${isActive
                                     ? 'text-blue-600 dark:text-blue-400'
                                     : 'text-slate-500 dark:text-slate-400'
                                     }`}
@@ -217,7 +217,7 @@ export function StudentLayout() {
             <main
                 className="min-h-screen transition-[margin-left] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
                 style={{
-                    marginLeft: isDesktop ? (sidebarCollapsed ? 72 : 240) : 0,
+                    marginLeft: isDesktop ? (sidebarCollapsed ? '4.5rem' : '15rem') : 0,
                 }}
             >
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24 sm:pb-6">

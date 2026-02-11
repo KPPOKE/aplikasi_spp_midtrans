@@ -1,5 +1,3 @@
-import midtransClient from 'midtrans-client';
-
 export default async function handler(req, res) {
     // Enable CORS manually
     res.setHeader('Access-Control-Allow-Credentials', true);
@@ -17,6 +15,15 @@ export default async function handler(req, res) {
     }
 
     try {
+        let midtransClient;
+        try {
+            const mod = await import('midtrans-client');
+            midtransClient = mod.default || mod;
+        } catch (e) {
+            console.error('Dependency midtrans-client missing:', e);
+            return res.status(500).json({ error: 'Dependency midtrans-client missing on server' });
+        }
+
         const { orderId, amount, name, billTitle, paymentMethod } = req.body;
 
         const serverKey = process.env.VITE_MIDTRANS_SERVER_KEY;
